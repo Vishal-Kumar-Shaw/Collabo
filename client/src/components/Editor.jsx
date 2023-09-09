@@ -53,7 +53,7 @@ const Editor = () => {
     },[]);
 
     // useEffect for handle Changes for the same id of differnt docs
-    
+
     useEffect(()=>{
         if(socket===null || quill===null) return;
 
@@ -84,16 +84,30 @@ const Editor = () => {
     },[quill, socket])
 
     useEffect(()=>{
-        if(quill ===null || socket === null) {
+        if(quill === null || socket === null) {
             return;
         }
         socket && socket.once('load-document', document =>{
             quill && quill.setContents(document);
             quill && quill.enable();
-        })
+        });
+
         socket && socket.emit('get-document', id);
 
     }, [quill, socket, id])
+
+    useEffect(()=>{
+        if(socket===null || quill===null) {
+            return;
+        }
+        const interval = setInterval(()=>{
+            socket.emit('save-document', quill.getContents());
+        }, 2000);
+        return () => {
+            clearInterval(interval);
+            
+        }
+    }, [socket, quill]);
 
   return (
     <Component>

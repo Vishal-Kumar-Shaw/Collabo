@@ -101,11 +101,11 @@ const Editor = () => {
             return;
         }
         const interval = setInterval(()=>{
-            socket.emit('save-document', quill.getContents());
+            socket && socket.emit('save-document', quill.getContents());
         }, 2000);
         return () => {
             clearInterval(interval);
-            
+
         }
     }, [socket, quill]);
 

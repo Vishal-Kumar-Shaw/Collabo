@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import Connection from './database/db.js'
 const PORT = 9000;
-// Connection();
+Connection();
 const io = new Server(PORT, {
     cors: {
         origin: 'http://localhost:3000',
